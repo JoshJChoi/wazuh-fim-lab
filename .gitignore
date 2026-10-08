@@ -1,0 +1,11 @@
+evidence/private/
+.DS_Store
+**/private/
+real-alert*.json
+alerts.json
+ossec.log
+*.log
+*.iso
+*.pkg
+*.utm/
+wazuh-install-files.tar

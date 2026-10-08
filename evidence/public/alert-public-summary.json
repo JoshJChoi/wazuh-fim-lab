@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-10-08T05:48:50.857+0000",
+  "agent": "macOS lab endpoint",
+  "rule_id": "100120",
+  "rule_level": 10,
+  "path": "~/cyber-lab/critical.txt",
+  "event": "modified",
+  "mode": "scheduled",
+  "sha256_before": "cb9710051654b1946946161023e9a07734b5fda8c75bce927861afb0d5942d22",
+  "sha256_after": "530a6207ab487061b7b3f530e4b40c35e4433580c2422d301998db2e72fc9b2b",
+  "assessment": "benign authorized lab test"
+}
