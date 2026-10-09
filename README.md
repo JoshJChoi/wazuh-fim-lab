@@ -2,9 +2,7 @@
 
 ## Summary
 
-I built a local Wazuh lab to practice detecting and investigating file changes. An Ubuntu ARM64 virtual machine runs Wazuh, and a Wazuh agent on my Mac monitors a folder of synthetic test files. I wrote a custom rule for one critical file, tested it against two controls, and documented the result.
-
-All file changes were authorized lab activity, not a real intrusion.
+I built a local Wazuh lab to practice detecting and investigating file changes. In the lab, an Ubuntu ARM64 virtual machine was used to run Wazuh, and a Wazuh agent on my Mac monitored a folder of test files I created. I wrote a custom rule for one critical file, ran three file-change tests, and documented the results.
 
 ## Environment
 
@@ -21,9 +19,7 @@ The VM used UTM Shared Network, and I accessed the dashboard from my Mac.
 
 ## Detection Rule
 
-My rule is in [`rules/lab_fim.xml`](rules/lab_fim.xml). It builds on Wazuh's file modification rule `550` and matches only a file named `critical.txt` inside the synthetic `cyber-lab` folder. When it matches, the alert uses custom rule `100120` at level 10.
-
-The path expression is anchored so that a similarly named file elsewhere should not match this rule.
+My rule is in [`rules/lab_fim.xml`](rules/lab_fim.xml). It builds on Wazuh's file modification rule `550` and matches only a file named `critical.txt` in the `cyber-lab` test folder. When it matches, the alert uses custom rule `100120` at level 10.
 
 ## Validation
 
@@ -37,20 +33,16 @@ I verified the critical alert in Wazuh's JSON alerts. It identified the event as
 
 ## Analyst Assessment
 
-The critical-file alert was expected: I made the change as part of this test. I classified it as benign, authorized activity. The ordinary-file control showed that my custom rule did not promote every modification in the monitored folder.
+I made the changes myself, so the critical-file alert was expected. `critical.txt` triggered my level 10 rule, while `ordinary.txt` stayed at the standard level 7 alert.
 
 My investigation and timeline are in [`cases/incident-report.md`](cases/incident-report.md).
 
 ## Limitations
 
-- This test used one Mac endpoint and a small folder of synthetic files.
-- Scheduled scanning means an alert can arrive after the file change.
-- A file modification alert alone does not identify the person or process responsible or establish malicious intent.
-- The outside-file check means I found no alert for that path during this test; it does not prove that every possible change outside the folder would go unobserved.
-
-## Next Improvements
-
-I would repeat the test several times to measure detection delay, then compare FIM alerts with additional endpoint logs and an approval record for each change.
+- I tested one Mac and a small folder of test files.
+- The agent scanned every 300 seconds, so it reported the change after it happened.
+- The alert showed which file changed, but not who changed it, which process did it, or why.
+- I found no alert for the one outside file I tested and I did not test every location on the Mac.
 
 ## Evidence
 
