@@ -1,7 +1,7 @@
 # Authorized file-change test: Wazuh FIM triage
 
 ## Scope
-I tested a custom Wazuh rule against synthetic files on my own Mac. This was an authorized lab change, not a real intrusion.
+I tested a custom Wazuh rule by changing files I created on my Mac, both inside and outside the monitored folder.
 
 ## Timeline (UTC)
 - 2026-10-08 05:47:36: I recorded the time immediately before changing `critical.txt`.
@@ -13,10 +13,10 @@ I tested a custom Wazuh rule against synthetic files on my own Mac. This was an 
 - `critical.txt`: modified; custom rule 100120; level 10; scheduled scan. Its before and after SHA-256 hashes differed.
 - `ordinary.txt`: modified; built-in rule 550; level 7. The custom rule did not match it.
 - Outside file: no matching FIM alert for that path.
-- I retained the complete critical-file alert and original screenshots privately.
+- I saved the complete critical-file alert and original screenshots privately.
 
 ## Assessment
-The custom rule detected the intended critical-file change while leaving the ordinary-file alert at its generic level. I performed the changes myself, so I classify this as benign, authorized test activity and a successful detection validation.
+The rule worked for this test: the critical file received a level 10 alert, and the ordinary file received the standard level 7 alert. Since I made the changes, I treated the alerts as expected test activity.
 
 ## Limitations
-The scheduled scan detected the change after it happened. This alert alone does not establish who made the change, whether it was malicious, or what process performed it. This test covers one Mac endpoint and one small synthetic folder.
+The agent scanned every 300 seconds, so Wazuh reported the file changes after they happened. The alerts showed which files changed, but not who changed them, which process made the changes, or why. I tested this on one Mac and a small folder of test files.
